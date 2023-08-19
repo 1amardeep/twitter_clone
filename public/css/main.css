@@ -1,0 +1,70 @@
+:root {
+  --twitter-blue: #1fa2f1;
+  --twitter-background-hover: #d4edff;
+  --twitter-Grey: rgb(230, 236, 240);
+  --spacing: 1rem;
+}
+
+a {
+  color: inherit;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mainContainerSection {
+  padding: 0;
+  border-left: 1px solid var(--twitter-Grey);
+  border-right: 1px solid var(--twitter-Grey);
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  height: 100%;
+}
+
+nav a {
+  padding: 1rem;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #212529;
+}
+
+nav a:hover {
+  background-color: var(--twitter-background-hover);
+  border-radius: 50%;
+  color: var(--twitter-blue);
+}
+
+a.blue {
+  color: var(--twitter-blue);
+}
+
+.titleContainer {
+  height: 4rem;
+  padding: 0 var(--spacing);
+  border-bottom: 1px solid var(--twitter-Grey);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.titleContainer h1 {
+  flex: 1;
+}

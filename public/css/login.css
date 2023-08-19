@@ -1,0 +1,47 @@
+body {
+  background-color: blue;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.loginContainer {
+  padding: 1rem;
+  width: 80%;
+  max-width: 500px;
+  background-color: #fff;
+  border-color: #dedede;
+  text-align: center;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); /* Safari/Chrome */
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); /* Firefox */
+  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); /* Opera */
+  -ms-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); /* Internet Explorer */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  margin-bottom: 20px;
+  padding: 5px 10px;
+  border-radius: 2px;
+  border: 1px solid #dedede;
+  background-color: #f2f2f2;
+}
+
+input[type="submit"] {
+  background-color: #0099ff;
+  border: none;
+  color: #fff;
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
