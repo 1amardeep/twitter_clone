@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const moongoose = require("./database");
 const session = require("express-session");
 
-const port = 3003;
+const port = process.env.PORT || 3003;
 const middleware = require("./middleware");
 
 const server = app.listen(port, () =>
