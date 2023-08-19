@@ -32,9 +32,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const loginRouter = require("./routes/loginRoutes");
 const registerRouter = require("./routes/registerRoutes");
 const logoutRouter = require("./routes/logout");
+
+// api routes
+const postApiRouter = require("./routes/api/posts");
+
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 app.use("/logout", logoutRouter);
+
+app.use("/api/posts", postApiRouter);
 
 app.get("/", middleware.requiredLogin, (req, res, next) => {
   console.log(req.session);
