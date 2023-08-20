@@ -8,9 +8,13 @@ const User = require("../../schemas/UserSchemas");
 router.get("/", async (req, res, next) => {
   try {
     const results = await Post.find()
+      .populate("retweetData")
       .populate("postedBy")
       .sort({ createdAt: -1 });
-    res.status(200).send(results);
+    const finalResult = await User.populate(results, {
+      path: "retweetData.postedBy",
+    });
+    res.status(200).send(finalResult);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -29,6 +33,80 @@ router.post("/", async (req, res, next) => {
       path: "postedBy",
     });
     res.status(201).send(updatedPostedData);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.put("/:id/like", async (req, res, next) => {
+  var postId = req.params.id;
+  var userId = req.session.user._id;
+
+  var isLikes =
+    req.session.user.likes && req.session.user.likes.includes(postId);
+
+  var option = isLikes ? "$pull" : "$addToSet";
+
+  // insert user likes - here square is used which is funny to set var value declared on top
+  // insert post likes
+  try {
+    req.session.user = await User.findByIdAndUpdate(
+      userId,
+      { [option]: { likes: postId } },
+      { new: true } // this will set user to new value after update
+    );
+    var updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { [option]: { likes: userId } },
+      { new: true } // this will set updated post
+    );
+    res.status(201).send(updatedPost);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.post("/:id/retweet", async (req, res, next) => {
+  var postId = req.params.id;
+  var userId = req.session.user._id;
+
+  //Try and Delete
+  try {
+    var deletePost = await Post.findOneAndDelete({
+      postedBy: userId,
+      retweetData: postId,
+    });
+  } catch (error) {
+    res.send(400).send("failed to find and delete");
+  }
+
+  var option = deletePost !== null ? "$pull" : "$addToSet";
+  var rePost = deletePost;
+
+  if (rePost === null) {
+    try {
+      rePost = await Post.create({
+        // content: rePost.content,
+        postedBy: userId,
+        retweetData: postId,
+      });
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  }
+
+  try {
+    req.session.user = await User.findByIdAndUpdate(
+      userId,
+      { [option]: { retweetPosts: rePost._id } },
+      { new: true } // this will set user to new value after update
+    );
+    var updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { [option]: { retweetUsers: userId } },
+      { new: true } // this will set updated post
+    );
+    res.status(201).send(updatedPost);
   } catch (error) {
     res.status(400).send(error);
   }

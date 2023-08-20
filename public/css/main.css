@@ -32,6 +32,11 @@ button {
   color: rgba(0, 0, 0, 0.34);
 }
 
+button i,
+button span {
+  pointer-events: none;
+}
+
 .mainContainerSection {
   padding: 0;
   border-left: 1px solid var(--twitter-Grey);
@@ -174,4 +179,19 @@ a.blue {
   background-color: var(--twitter-background-hover);
   color: var(--twitter-blue);
   border-radius: 50%;
+}
+
+.postButtonContainer.red .likeButton.active {
+  color: red;
+}
+
+.postButtonContainer.green .retweetButton.active {
+  color: green;
+}
+
+.postActionContainer {
+  padding-left: 2rem;
+  font-size: 0.9rem;
+  color: var(--grayText);
+  margin-bottom: 0.5rem;
 }

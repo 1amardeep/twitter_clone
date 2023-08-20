@@ -43,10 +43,10 @@ app.use("/logout", logoutRouter);
 app.use("/api/posts", postApiRouter);
 
 app.get("/", middleware.requiredLogin, (req, res, next) => {
-  console.log(req.session);
   var payload = {
     user: req.session.user,
     application: "Twitter",
+    userLoggedInJs: JSON.stringify(req.session.user),
   };
   res.status(200).render("home", payload);
 });

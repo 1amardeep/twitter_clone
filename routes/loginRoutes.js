@@ -33,13 +33,14 @@ router.post("/", async (req, res, next) => {
           payload.errorMessage = "Wrong user name and password";
           res.status(200).render("login", payload);
         }
+      } else {
+        res.status(200).render("login");
       }
     } catch (error) {
       payload.errorMessage = "Something went wrong during login";
       res.status(200).render("login", payload);
     }
   }
-  res.status(200).render("login");
 });
 
 module.exports = router;
