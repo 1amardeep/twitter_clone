@@ -36,8 +36,12 @@ const getPosts = async (query = {}) => {
       path: "retweetData.postedBy",
     });
 
-    return await Post.populate(results_intermediate2, {
+    const result_intermediate3 = await Post.populate(results_intermediate2, {
       path: "retweetData.replyTo",
+    });
+
+    return await User.populate(result_intermediate3, {
+      path: "retweetData.replyTo.postedBy",
     });
   } catch (error) {
     throw error;
