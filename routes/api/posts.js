@@ -7,28 +7,60 @@ const User = require("../../schemas/UserSchemas");
 
 router.get("/", async (req, res, next) => {
   try {
-    const results = await Post.find()
-      .populate("retweetData")
-      .populate("postedBy")
-      .sort({ createdAt: -1 });
-    const finalResult = await User.populate(results, {
-      path: "retweetData.postedBy",
-    });
-    res.status(200).send(finalResult);
+    const posts = await getPosts();
+    res.status(200).send(posts);
   } catch (error) {
     res.status(400).send(error);
   }
 });
 
+router.get("/:id", async (req, res, next) => {
+  const postId = req.params.id;
+  try {
+    const posts = await getPosts({ _id: postId });
+    res.status(200).send(posts[0]);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+const getPosts = async (query = {}) => {
+  try {
+    const results = await Post.find(query)
+      .populate("retweetData postedBy replyTo")
+      .sort({ createdAt: -1 });
+    const results_intermediate = await User.populate(results, {
+      path: "replyTo.postedBy",
+    });
+    const results_intermediate2 = await User.populate(results_intermediate, {
+      path: "retweetData.postedBy",
+    });
+
+    return await Post.populate(results_intermediate2, {
+      path: "retweetData.replyTo",
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 router.post("/", async (req, res, next) => {
   if (!req.body.content) {
     return res.status(400).send("No data");
   }
+
+  var postData = {
+    content: req.body.content,
+    postedBy: req.session.user,
+  };
+
+  if (req.body.replyTo) {
+    postData.replyTo = req.body.replyTo;
+  }
+
   try {
-    const postedData = await Post.create({
-      content: req.body.content,
-      postedBy: req.session.user,
-    });
+    const postedData = await Post.create(postData);
+
     const updatedPostedData = await User.populate(postedData, {
       path: "postedBy",
     });

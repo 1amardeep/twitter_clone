@@ -195,3 +195,21 @@ a.blue {
   color: var(--grayText);
   margin-bottom: 0.5rem;
 }
+
+.modal .postFormContainer {
+  border: none;
+  padding: 0;
+  padding-top: var(--spacing);
+}
+
+.modal .post {
+  padding: 0 0 var(--spacing) 0;
+}
+
+.replyFlag {
+  margin-bottom: 0.4rem;
+}
+
+.replyFlag a {
+  color: var(--twitter-blue);
+}
