@@ -213,3 +213,7 @@ a.blue {
 .replyFlag a {
   color: var(--twitter-blue);
 }
+.post.largeFont .postBody,
+.post.largeFont .postFooter {
+  font-size: 1.5rem;
+}

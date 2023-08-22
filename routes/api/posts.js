@@ -17,8 +17,16 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   const postId = req.params.id;
   try {
-    const posts = await getPosts({ _id: postId });
-    res.status(200).send(posts[0]);
+    var postData = await getPosts({ _id: postId });
+    postData = postData[0];
+    const results = {
+      postData,
+    };
+    if (postData.replyTo != undefined) {
+      results.replyTo = postData.replyTo;
+    }
+    results.replies = await getPosts({ replyTo: postId });
+    res.status(200).send(results);
   } catch (error) {
     res.status(400).send(error);
   }

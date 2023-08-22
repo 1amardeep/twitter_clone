@@ -32,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const loginRouter = require("./routes/loginRoutes");
 const registerRouter = require("./routes/registerRoutes");
 const logoutRouter = require("./routes/logout");
+const postPageRouter = require("./routes/postRoutes");
 
 // api routes
 const postApiRouter = require("./routes/api/posts");
@@ -39,6 +40,7 @@ const postApiRouter = require("./routes/api/posts");
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 app.use("/logout", logoutRouter);
+app.use("/posts", middleware.requiredLogin, postPageRouter);
 
 app.use("/api/posts", postApiRouter);
 

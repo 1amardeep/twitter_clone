@@ -69,6 +69,15 @@ $(document).on("click", ".retweetButton", (event) => {
   });
 });
 
+$(document).on("click", ".post", (event) => {
+  var element = $(event.target);
+  var id = getPostIdFromElement(element);
+  if (id === undefined) return;
+  if (id !== undefined && !element.is("button")) {
+    window.location.href = `/posts/${id}`;
+  }
+});
+
 function getPostIdFromElement(element) {
   var isRoot = element.hasClass("post");
   var rootElement = isRoot === true ? element : element.closest(".post");
@@ -78,7 +87,7 @@ function getPostIdFromElement(element) {
   return rootElement?.data().id;
 }
 
-function createPostHTML(postData) {
+function createPostHTML(postData, largeFont = false) {
   var isRetweet = postData.retweetData !== undefined;
   var retweetedBy = isRetweet ? postData.postedBy.userName : null;
   postData = isRetweet ? postData.retweetData : postData;
@@ -96,13 +105,14 @@ function createPostHTML(postData) {
     : "";
 
   var replyFlag = "";
-  if (postData.replyTo) {
+  var largeFontClass = largeFont ? "largeFont" : "";
+  if (postData.replyTo && postData.replyTo._id) {
     const replyToUserName = postData.replyTo.postedBy.userName;
     replyFlag = `<div class="replyFlag">
     Replying to <a href='/profile/${replyToUserName}'>${replyToUserName}</a>
     </div>`;
   }
-  return `<div class="post" data-id="${postData._id}">
+  return `<div class="post ${largeFontClass}" data-id="${postData._id}">
            <div class="postActionContainer">${retweetText}</div>
            <div class="mainContentContainer"> 
               <div class="userImageContainer">
@@ -192,10 +202,27 @@ $("#replyModal").on("show.bs.modal", function (event) {
   const id = getPostIdFromElement(button);
   $("#submitReplyButton").attr("data-id", id);
   $.get(`/api/posts/${id}`, (results) => {
-    outputPost(results, $("#originalPostContainer"));
+    outputPost(results.postData, $("#originalPostContainer"));
   });
 });
 
 $("#replyModal").on("hidden.bs.modal", () => {
   $("#originalPostContainer").html("");
 });
+
+function outputPostWithReplies(results, container) {
+  container.html("");
+
+  if (results.replyTo !== undefined) {
+    var html = createPostHTML(results.replyTo);
+    container.append(html);
+  }
+
+  var mainPostHTML = createPostHTML(results.postData, true);
+  container.append(mainPostHTML);
+
+  results.replies.forEach((result) => {
+    var html = createPostHTML(result);
+    container.append(html);
+  });
+}
