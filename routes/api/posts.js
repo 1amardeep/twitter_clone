@@ -27,22 +27,41 @@ router.get("/:id", async (req, res, next) => {
 const getPosts = async (query = {}) => {
   try {
     const results = await Post.find(query)
-      .populate("retweetData postedBy replyTo")
+      .populate([
+        {
+          path: "retweetData",
+          model: "Post",
+          populate: [
+            {
+              path: "postedBy",
+              model: "User",
+            },
+            {
+              path: "replyTo",
+              model: "Post",
+              populate: {
+                path: "postedBy",
+                model: "User",
+              },
+            },
+          ],
+        },
+        {
+          path: "postedBy",
+          model: "User",
+        },
+        {
+          path: "replyTo",
+          model: "Post",
+          populate: {
+            path: "postedBy",
+            model: "User",
+          },
+        },
+      ])
       .sort({ createdAt: -1 });
-    const results_intermediate = await User.populate(results, {
-      path: "replyTo.postedBy",
-    });
-    const results_intermediate2 = await User.populate(results_intermediate, {
-      path: "retweetData.postedBy",
-    });
 
-    const result_intermediate3 = await Post.populate(results_intermediate2, {
-      path: "retweetData.replyTo",
-    });
-
-    return await User.populate(result_intermediate3, {
-      path: "retweetData.replyTo.postedBy",
-    });
+    return results;
   } catch (error) {
     throw error;
   }
