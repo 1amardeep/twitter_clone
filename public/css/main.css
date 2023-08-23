@@ -225,3 +225,26 @@ a.blue {
 .postContentContainer .header .date {
   flex: 1;
 }
+
+.errorMessage {
+  padding: var(--spacing);
+  font-weight: normal;
+}
+
+.profileHeaderContainer .coverPhotoContainer {
+  background: var(--twitter-blue);
+  height: 180px;
+  position: relative;
+}
+
+.profileHeaderContainer .userImageContainer {
+  position: absolute;
+  bottom: -66px;
+  margin-left: var(--spacing);
+  width: 132px;
+  height: 132px;
+}
+
+.profileHeaderContainer .userImageContainer img {
+  border: 4px solid #fff;
+}

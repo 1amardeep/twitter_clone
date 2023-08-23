@@ -1,0 +1,14 @@
+extends layouts/main_layout.pug
+block content
+    if !user
+        h1.errorMessage Check the user , profile does not exist !
+    else
+        .profileHeaderContainer 
+            .coverPhotoContainer 
+                .userImageContainer 
+                    img(src=profileUser.profilePic, alt="User Profile Image")
+        .postsContainer
+        +createReplyModal(user)
+
+block scripts 
+    script(src="/js/profilePage.js") 
