@@ -25,3 +25,18 @@ mixin createReplyModal(userLoggedIn)
                 .modal-footer
                     button.btn.btn-secondary(type='button' data-dismiss='modal') Close
                     button#submitReplyButton.btn.btn-primary(type='button' disabled="") Reply
+
+mixin createDeleteModal()
+    #deleteModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#deleteModalLabel.modal-title Reply
+                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                    #originalPostContainer
+                    p Are you want to delete the post ?
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                    button#deletePostButton.btn.btn-primary(type='button') Delete

@@ -175,4 +175,14 @@ router.post("/:id/retweet", async (req, res, next) => {
   }
 });
 
+router.delete("/:id", async (req, res, next) => {
+  const postId = req.params.id;
+  try {
+    var postData = await Post.findOneAndDelete({ _id: postId });
+    res.status(200).send(postData);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 module.exports = router;
