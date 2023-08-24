@@ -6,8 +6,15 @@ const Post = require("../../schemas/PostSchemas");
 const User = require("../../schemas/UserSchemas");
 
 router.get("/", async (req, res, next) => {
+  const searchQuery = req.query;
+  if (searchQuery.isReply !== undefined) {
+    console.log(searchQuery.isReply);
+    var isReply = searchQuery.isReply == "true";
+    searchQuery.replyTo = { $exists: isReply };
+    delete searchQuery.isReply;
+  }
   try {
-    const posts = await getPosts();
+    const posts = await getPosts(searchQuery);
     res.status(200).send(posts);
   } catch (error) {
     res.status(400).send(error);

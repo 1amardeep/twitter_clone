@@ -3,12 +3,36 @@ block content
     if !user
         h1.errorMessage Check the user , profile does not exist !
     else
+        script. 
+            var profileUserId = `!{profileUser._id}`;
+            var selectedTab = `!{selectedTab}`;
         .profileHeaderContainer 
             .coverPhotoContainer 
                 .userImageContainer 
                     img(src=profileUser.profilePic, alt="User Profile Image")
+            .profileButtonContainer
+                if profileUser._id != user._id 
+                    a.profileButton(href=`/messages/${profileUser._id}`)
+                        i.fas.fa-envelope
+                    +customButton(profileUser, true)
+            .userDetailsContainer
+                span.displayName #{profileUser.firstName} #{profileUser.lastName}
+                span.displayName @#{profileUser.userName} 
+
+                .followersContainer 
+                    a(href=`/profile/${profileUser._id}/following`)
+                        span.value #{0}
+                        span Following
+                    a(href=`/profile/${profileUser._id}/followers`)
+                        span.value #{0}
+                        span followers
+        .tabContainer
+            +createTabs("Posts",`/profile/${profileUser.userName}`, selectedTab != "replies")
+            +createTabs("Replies",`/profile/${profileUser.userName}/replies`, selectedTab == "replies")
+
         .postsContainer
         +createReplyModal(user)
+        +createDeleteModal()
 
 block scripts 
     script(src="/js/profilePage.js") 

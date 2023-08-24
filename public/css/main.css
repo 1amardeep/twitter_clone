@@ -239,7 +239,7 @@ a.blue {
 
 .profileHeaderContainer .userImageContainer {
   position: absolute;
-  bottom: -66px;
+  bottom: -50px;
   margin-left: var(--spacing);
   width: 132px;
   height: 132px;
@@ -247,4 +247,82 @@ a.blue {
 
 .profileHeaderContainer .userImageContainer img {
   border: 4px solid #fff;
+}
+
+.profileHeaderContainer .profileButtonContainer {
+  text-align: right;
+  padding: var(--spacing);
+}
+
+.profileButton,
+.FollowButton {
+  border: 1px solid var(--lightBlue);
+  color: var(--twitter-blue);
+  padding: 5px 15px;
+  border-radius: 4rem;
+  margin-left: var(--spacing);
+}
+
+.profileButton:hover,
+.FollowButton:hover {
+  background-color: var(--twitter-background-hover);
+}
+
+.FollowButton.Following {
+  background: var(--twitter-blue);
+  color: #fff;
+}
+
+.profileHeaderContainer .userDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing);
+}
+
+.followersContainer .value {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.followersContainer span:not(.value) {
+  color: var(--grayText);
+}
+
+.followersContainer a {
+  margin-right: 15px;
+}
+
+.followersContainer a:hover {
+  border-bottom: 1px solid black;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+.tabContainer {
+  display: flex;
+  border-bottom: 1px solid var(--twitter-Grey);
+  flex-shrink: 0;
+}
+
+.tabContainer .tab {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  height: 2rem;
+  align-items: center;
+  color: var(--grayText);
+  font-weight: bold;
+}
+
+.tab.active {
+  color: var(--twitter-blue);
+  border-bottom: 2px solid var(--twitter-blue);
+}
+
+.tab:hover {
+  color: var(--twitter-blue);
+  background: var(--twitter-background-hover);
 }

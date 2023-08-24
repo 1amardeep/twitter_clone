@@ -15,7 +15,13 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/:userName", async (req, res, next) => {
-  var payload = await getPayload(req.params.userName, req.session.userLoggedIn);
+  var payload = await getPayload(req.params.userName, req.session.user);
+  res.status(200).render("profilePage", payload);
+});
+
+router.get("/:userName/replies", async (req, res, next) => {
+  var payload = await getPayload(req.params.userName, req.session.user);
+  payload.selectedTab = "replies";
   res.status(200).render("profilePage", payload);
 });
 
@@ -26,15 +32,16 @@ async function getPayload(userName, userLoggedIn) {
     if (user == null) {
       return {
         application: "User not found",
-        user: user,
+        user: userLoggedIn,
         userLoggedInJs: JSON.stringify(userLoggedIn),
+        profileUser: user,
       };
     }
   }
 
   return {
     application: user.userName,
-    user: user,
+    user: userLoggedIn,
     userLoggedInJs: JSON.stringify(user),
     profileUser: user,
   };
