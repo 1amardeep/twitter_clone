@@ -326,3 +326,7 @@ img {
   color: var(--twitter-blue);
   background: var(--twitter-background-hover);
 }
+
+.wrapper > .row {
+  margin: auto 0;
+}

@@ -8,7 +8,6 @@ const User = require("../../schemas/UserSchemas");
 router.get("/", async (req, res, next) => {
   const searchQuery = req.query;
   if (searchQuery.isReply !== undefined) {
-    console.log(searchQuery.isReply);
     var isReply = searchQuery.isReply == "true";
     searchQuery.replyTo = { $exists: isReply };
     delete searchQuery.isReply;
