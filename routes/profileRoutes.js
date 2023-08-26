@@ -25,10 +25,22 @@ router.get("/:userName/replies", async (req, res, next) => {
   res.status(200).render("profilePage", payload);
 });
 
+router.get("/:userName/following", async (req, res, next) => {
+  var payload = await getPayload(req.params.userName, req.session.user);
+  payload.selectedTab = "following";
+  res.status(200).render("followersAndFollowing", payload);
+});
+
+router.get("/:userName/followers", async (req, res, next) => {
+  var payload = await getPayload(req.params.userName, req.session.user);
+  payload.selectedTab = "followers";
+  res.status(200).render("followersAndFollowing", payload);
+});
+
 async function getPayload(userName, userLoggedIn) {
   var user = await User.findOne({ userName });
   if (user == null) {
-    user = await User.findById({ userName });
+    user = await User.findById(userName);
     if (user == null) {
       return {
         application: "User not found",

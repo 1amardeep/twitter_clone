@@ -1,0 +1,16 @@
+extends layouts/main_layout.pug
+block content
+    if !user
+        h1.errorMessage Check the user , profile does not exist !
+    else
+        script. 
+            var profileUserId = `!{profileUser._id}`;
+            var selectedTab = `!{selectedTab}`;
+        .tabContainer
+            +createTabs("Following",`/profile/${profileUser.userName}/following`, selectedTab != "followers")
+            +createTabs("Followers",`/profile/${profileUser.userName}/followers`, selectedTab == "followers")
+
+        .followerAndFollowingResultsContainer
+
+block scripts 
+    script(src="/js/followersAndFollowing.js") 

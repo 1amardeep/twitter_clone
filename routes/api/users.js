@@ -35,4 +35,30 @@ router.put("/:profileId/follow", async (req, res, next) => {
   }
 });
 
+router.get("/:profileId/following", async (req, res, next) => {
+  const profileId = req.params.profileId;
+  try {
+    var result = await User.findById(profileId).populate({
+      model: "User",
+      path: "following",
+    });
+    res.status(200).send({ following: result.following });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.get("/:profileId/followers", async (req, res, next) => {
+  const profileId = req.params.profileId;
+  try {
+    var result = await User.findById(profileId).populate({
+      model: "User",
+      path: "followers",
+    });
+    res.status(200).send({ followers: result.followers });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 module.exports = router;

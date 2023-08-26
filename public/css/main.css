@@ -330,3 +330,24 @@ img {
 .wrapper > .row {
   margin: auto 0;
 }
+
+.noResults {
+  padding: var(--spacing);
+}
+
+.followerAndFollowingResultsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.followerAndFollowingResultsContainer .user {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing);
+  border-bottom: 1px solid var(--twitter-Grey);
+}
+
+.followerAndFollowingResultsContainer .userDetailsContainer {
+  flex: 1;
+  padding: 0 var(--spacing);
+}
